@@ -61,13 +61,10 @@ namespace lab2
                 return;
             }
 
-            // Ensure that min is less than or equal to max
             if (min > max)
             {
-                // Swap min and max values if min is greater than max
-                int temp = min;
-                min = max;
-                max = temp;
+                MessageBox.Show("мінімальне та максимальне значення введено не в правильному порядку ");
+                return;
             }
 
             matrix.FillElementRandom(min, max);
@@ -114,7 +111,35 @@ namespace lab2
                     sortedMatrix[i, j] = matrix[i, sortedColumns[j]];
                 }
             }
+            if (!int.TryParse(textBoxRow.Text, out var row))
+            {
+                MessageBox.Show("invalid row");
+                return;
+            }
+            if (!int.TryParse(textBoxCol.Text, out var col))
+            {
+                MessageBox.Show("invalid col");
+                return;
+            }
 
+            matrix = new CharacteristicMatrix(row, col);
+
+            if (!int.TryParse(textBoxMin.Text, out var min))
+            {
+                MessageBox.Show("invalid min");
+                return;
+            }
+            if (!int.TryParse(textBoxMax.Text, out var max))
+            {
+                MessageBox.Show("invalid max");
+                return;
+            }
+
+            if (min > max)
+            {
+                MessageBox.Show("мінімальне та максимальне значення введено не в правильному порядку ");
+                return;
+            }
             // Print sorted matrix
             Print(sortedMatrix);
 
@@ -216,6 +241,17 @@ namespace lab2
         #region Конструктор
         public CharacteristicMatrix(int row, int col)
         {
+            if(row<0 || col < 0)
+            {
+                MessageBox.Show("введено відємний елемент");
+                return;
+            }
+            if (row > 100 || col > 100)
+            {
+                MessageBox.Show("введено не можливу кількість");
+                return;
+            }
+
             matrix = new int[row, col];
             RowCount = row;
             ColCount = col;
